@@ -1,0 +1,11 @@
+torch
+torchvision
+numpy
+pandas
+requests
+astropy
+xarray
+h5netcdf
+huggingface_hub
+matplotlib
+pytest
