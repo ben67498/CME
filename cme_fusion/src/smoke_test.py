@@ -12,7 +12,7 @@ from .dataset_fusion import FusionDataset
 from .download_cdaw import download_cdaw_text
 from .download_core_sdo import download_core_sdo_sample
 from .download_lasco import download_lasco_c2
-from .load_core_sdo import load_core_sdo_stack
+from .load_core_sdo import ensure_hdf5_plugin_path, load_core_sdo_stack
 from .parse_cdaw import parse_univ_all
 from .preprocess_lasco import load_lasco_stack
 from .train import run_train
@@ -30,13 +30,16 @@ def main():
     p.add_argument("--label_mode", choices=["frame", "forecast"], default="frame")
     p.add_argument("--forecast_horizon_hours", type=float, default=2.0)
     p.add_argument("--max_align_minutes", type=int, default=60)
+    p.add_argument("--run_name", default="smoke")
     args = p.parse_args()
 
     cfg = SmokeConfig()
     set_seed(42)
     data_dir = cfg.data_dir
-    run_dir = cfg.run_dir
+    run_dir = Path("runs") / args.run_name
     run_dir.mkdir(parents=True, exist_ok=True)
+
+    ensure_hdf5_plugin_path()
 
     sdo_files = download_core_sdo_sample(data_dir / "core_sdo")
     lasco_files = download_lasco_c2(cfg.lasco_date, data_dir / "lasco", n_files=cfg.lasco_num_files)

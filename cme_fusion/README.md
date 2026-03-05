@@ -13,7 +13,7 @@ Or locally:
 ```bash
 pip install -r requirements.txt
 pytest -q
-python -m src.smoke_test
+python -m src.smoke_test --run_name smoke
 ```
 
 ## What smoke test does
